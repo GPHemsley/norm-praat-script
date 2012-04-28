@@ -1,6 +1,6 @@
 #
 # Praat script for measuring vowels for NORM
-# Version 3.2; Released 2010-03-19
+# Version 3.3; Released 2010-04-22
 #
 # http://qc.gphemsley.org/courses/LCD/391.3/2010-01/
 #
@@ -80,7 +80,7 @@ filepath$ = ""
 
 # Prompt the user for information about the vowel
 form Record vowel data
-	word Word
+	sentence Word
 	word Vowel_name
 endform
 
@@ -96,12 +96,12 @@ glide_file$ = filepath$ + "praat.norm.glide." + speaker$ + ".txt"
 if ( fileReadable ( glide_file$ ) )
 	beginPause ( "Measure glide?" )
 		comment ( "You have a glide measurement pending. Would you like to measure it now?" )
-	measure_glide = endPause ( "Measure glide", "Skip glide", 1 )
+	measure_glide = endPause ( "Skip glide", "Measure glide", 2 )
 endif
 
 # If there is no glide open, or an open glide was skipped,
 # ask what we are going to measure now.
-if ( ( measure_glide == 0 ) || ( measure_glide == 2 ) )
+if ( ( measure_glide == 0 ) || ( measure_glide == 1 ) )
 	beginPause ( "Select phthong" )
 		comment ( "Please select phthong" )
 	phthong = endPause ( "Monophthong", "Diphthong", 1 )
@@ -119,9 +119,9 @@ endif
 # If we have to measure a glide, write the values at the end of the line.
 # If we skip an expected glide measurement, finish the line off empty.
 if ( measure_glide != 0 )
-	if ( measure_glide == 1 )
+	if ( measure_glide == 2 )
 		fileappend 'data_file$' 'f1:0''tab$''f2:0''tab$''f3:0''newline$'
-	elsif ( measure_glide == 2 )
+	elsif ( measure_glide == 1 )
 		fileappend 'data_file$' 'tab$''tab$''newline$'
 	endif
 
@@ -130,7 +130,7 @@ endif
 
 # If we are measuring a new diphthong, write the beginning of the line.
 # Otherwise, write the full line.
-if ( measure_glide != 1 )
+if ( measure_glide != 2 )
 	if ( phthong == 2 )
 		fileappend 'data_file$' 'speaker$''tab$''Vowel_name$''tab$''Word$''tab$''f1:0''tab$''f2:0''tab$''f3:0''tab$'
 
