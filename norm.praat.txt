@@ -1,6 +1,6 @@
 #
 # Praat script for measuring vowels for NORM
-# Version 3.3; Released 2010-04-22
+# Version 3.4; Released 2010-05-25
 #
 # http://qc.gphemsley.org/courses/LCD/391.3/2010-01/
 #
@@ -107,6 +107,7 @@ if ( ( measure_glide == 0 ) || ( measure_glide == 1 ) )
 	phthong = endPause ( "Monophthong", "Diphthong", 1 )
 endif
 
+cursor = Get cursor
 f1 = Get first formant
 f2 = Get second formant
 f3 = Get third formant
@@ -132,11 +133,11 @@ endif
 # Otherwise, write the full line.
 if ( measure_glide != 2 )
 	if ( phthong == 2 )
-		fileappend 'data_file$' 'speaker$''tab$''Vowel_name$''tab$''Word$''tab$''f1:0''tab$''f2:0''tab$''f3:0''tab$'
+		fileappend 'data_file$' 'speaker$''tab$''Vowel_name$''tab$''Word$' ('cursor:4')'tab$''f1:0''tab$''f2:0''tab$''f3:0''tab$'
 
 		# Create temp file to keep track of glides.
 		data_file$ > 'glide_file$'
 	else
-		fileappend 'data_file$' 'speaker$''tab$''Vowel_name$''tab$''Word$''tab$''f1:0''tab$''f2:0''tab$''f3:0''tab$''tab$''tab$''newline$'
+		fileappend 'data_file$' 'speaker$''tab$''Vowel_name$''tab$''Word$' ('cursor:4')'tab$''f1:0''tab$''f2:0''tab$''f3:0''tab$''tab$''tab$''newline$'
 	endif
 endif

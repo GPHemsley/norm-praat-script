@@ -1,6 +1,11 @@
 NORM Praat Script NEWS
 ======================
 
+2010-05-25 :: 3.4 (Praat Script for NORM, with Timestamps)
+-----------------
+
+* Added timestamp to Word field to indicate the time (in seconds) of the single or steady-state measurement. (The time of the glide is not recorded.)
+
 2010-04-22 :: 3.3 (Praat Script for NORM, with Better UX)
 -----------------
 
