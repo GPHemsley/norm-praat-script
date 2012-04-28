@@ -13,4 +13,4 @@ Instructions
   Specify which directory to put the log files in.  
   Put path between quotation marks. (Do not include file name.)  
   Be sure to include trailing slash.  
-  (Leave empty for current directory.)  
+  (Leave empty for current directory.)

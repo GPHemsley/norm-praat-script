@@ -1,6 +1,11 @@
 NORM Praat Script NEWS
 ======================
 
+2010-03-06 :: 1.1 (New Praat Script 2)
+-----------------
+
+* Added check to ensure that the Plotnik output file is valid.
+
 2010-03-05 :: 1.0 (New Praat Script)
 -----------------
 

@@ -33,12 +33,17 @@ f3 = Get third formant
 
 if target = 1
 	filename$ = filepath$ + speaker$ + ".plt"
+
+	if !fileReadable (filename$)
+		fileappend 'filename$' 'speaker$''newline$'500'newline$'
+	endif
+
 	fileappend 'filename$' 'f1:0','f2:0','f3:0','Vowel_code',1,'Word$' 'Comment$' 'time:4' 'newline$'
 elsif target = 2
 	filename$ = filepath$ + speaker$ + ".tsv"
 
 	if !fileReadable (filename$)
-	fileappend 'filename$' Speaker'tab$'Vowel'tab$'Word'tab$'F1'tab$'F2'tab$'F3'tab$'F1g'tab$'F2g'tab$'F3g'newline$'
+		fileappend 'filename$' Speaker'tab$'Vowel'tab$'Word'tab$'F1'tab$'F2'tab$'F3'tab$'F1g'tab$'F2g'tab$'F3g'newline$'
 	endif
 
 	fileappend 'filename$' 'speaker$''tab$''Vowel_name$''tab$''Word$''tab$''f1:0''tab$''f2:0''tab$''f3:0''tab$''tab$''tab$''newline$'
