@@ -1,6 +1,12 @@
 NORM Praat Script NEWS
 ======================
 
+2010-03-14 :: 3.0 (Praat Script for NORM)
+-----------------
+
+* Removed support for Plotnik.
+* Replaced automatic measurement of glides with manual measurement.
+
 2010-03-07 :: 2.0 (Praat Script with Glides)
 -----------------
 

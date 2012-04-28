@@ -18,84 +18,68 @@ filepath$ = ""
 # Prompt the user for information about the vowel
 form Record vowel data
 	word Word
-	natural Vowel_code
 	word Vowel_name
-	sentence Comment
 endform
 
-# Find out what type of file we'll need
-beginPause ("Select target program")
-	comment ("What is your target program?")
-target = endPause ("Plotnik", "NORM", 2)
+# Set defaults
+measure_glide = 0
+phthong = 1
 
-# NORM supports diphthongs, if necessary
-if ( target == 2 )
-	beginPause ("Select phthong")
-		comment ("Please select phthong")
-	phthong = endPause ("Monophthong", "Diphthong", 1)
+# Prepare filenames
+data_file$ = filepath$ + speaker$ + ".tsv"
+glide_file$ = temporaryDirectory$ + "praat.norm.glide." + speaker$ + ".txt"
 
-	printline 'phthong'
+# Check to see if there is a glide open
+if ( fileReadable ( glide_file$ ) )
+	beginPause ( "Measure glide?" )
+		comment ( "You have a glide measurement pending. Would you like to measure it now?" )
+	measure_glide = endPause ( "Measure glide", "Skip glide", 1 )
 
-	selection_start = Get start of selection
-	selection_end = Get end of selection
-	selection_length = Get selection length
-
-	# If a monophthong, use the mean of the full selection.
-	# If a diphthong, use the means of the first and last quarters of the selection
-	if ( phthong == 1 || selection_length == 0 )
-		f1 = Get first formant
-		f2 = Get second formant
-		f3 = Get third formant
-
-		f1g = 0
-		f2g = 0
-		f3g = 0
-
-#		printline 'f1' 'f2' 'f3'
-#		printline 'f1g' 'f2g' 'f3g'
-	else
-		selection_quarter = selection_length / 4
-		selection_first_quarter = selection_start + selection_quarter
-		selection_last_quarter = selection_end - selection_quarter
-
-		Select... selection_start selection_first_quarter
-
-		f1 = Get first formant
-		f2 = Get second formant
-		f3 = Get third formant
-
-		Select... selection_last_quarter selection_end
-
-		f1g = Get first formant
-		f2g = Get second formant
-		f3g = Get third formant
-
-		Select... selection_start selection_end
-
-#		printline 'f1' 'f2' 'f3'
-#		printline 'f1g' 'f2g' 'f3g'
-	endif
+#	printline 'measure_glide'
 endif
 
+# If there is no glide open, or an open glide was skipped,
+# ask what we are going to measure now.
+if ( ( measure_glide == 0 ) || ( measure_glide == 2 ) )
+	beginPause ( "Select phthong" )
+		comment ( "Please select phthong" )
+	phthong = endPause ( "Monophthong", "Diphthong", 1 )
+
+#	printline 'phthong'
+endif
+
+f1 = Get first formant
+f2 = Get second formant
+f3 = Get third formant
+
+#printline 'f1' 'f2' 'f3'
+
 # Write to the file
-if ( target == 1 )
-	filename$ = filepath$ + speaker$ + ".plt"
+if ( !fileReadable ( data_file$ ) )
+	fileappend 'data_file$' Speaker'tab$'Vowel'tab$'Word'tab$'F1'tab$'F2'tab$'F3'tab$'F1g'tab$'F2g'tab$'F3g'newline$'
+endif
 
-	if !fileReadable (filename$)
-		fileappend 'filename$' 'speaker$''newline$'500'newline$'
+# If we have to measure a glide, write the values at the end of the line.
+# If we skip an expected glide measurement, finish the line off empty.
+if ( measure_glide != 0 )
+	if ( measure_glide == 1 )
+		fileappend 'data_file$' 'f1:0''tab$''f2:0''tab$''f3:0''newline$'
+	elsif ( measure_glide == 2 )
+		fileappend 'data_file$' 'tab$''tab$''newline$'
 	endif
 
-	fileappend 'filename$' 'f1:0','f2:0','f3:0','Vowel_code',1,'Word$' -- 'Comment$' 'selection_start:4' 'selection_start:4' 'newline$'
-elsif ( target == 2 )
-	filename$ = filepath$ + speaker$ + ".tsv"
+	filedelete 'glide_file$'
+endif
 
-	if !fileReadable (filename$)
-		fileappend 'filename$' Speaker'tab$'Vowel'tab$'Word'tab$'F1'tab$'F2'tab$'F3'tab$'F1g'tab$'F2g'tab$'F3g'newline$'
-	endif
+# If we are measuring a new diphthong, write the beginning of the line.
+# Otherwise, write the full line.
+if ( measure_glide != 1 )
+	if ( phthong == 2 )
+		fileappend 'data_file$' 'speaker$''tab$''Vowel_name$''tab$''Word$''tab$''f1:0''tab$''f2:0''tab$''f3:0''tab$'
 
-	if ( f1g && f2g && f3g )
-		fileappend 'filename$' 'speaker$''tab$''Vowel_name$''tab$''Word$''tab$''f1:0''tab$''f2:0''tab$''f3:0''tab$''f1g:0''tab$''f2g:0''tab$''f3g:0''newline$'
+		# Create temp file to keep track of glides.
+		data_file$ > 'glide_file$'
 	else
-		fileappend 'filename$' 'speaker$''tab$''Vowel_name$''tab$''Word$''tab$''f1:0''tab$''f2:0''tab$''f3:0''tab$''tab$''tab$''newline$'
+		fileappend 'data_file$' 'speaker$''tab$''Vowel_name$''tab$''Word$''tab$''f1:0''tab$''f2:0''tab$''f3:0''tab$''tab$''tab$''newline$'
 	endif
 endif
