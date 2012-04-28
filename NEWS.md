@@ -1,6 +1,12 @@
 NORM Praat Script NEWS
 ======================
 
+2010-03-18 :: 3.1 (Praat Script for NORM, with Instructions)
+-----------------
+
+* Added detailed instructions on how to use the script.
+* Moved the copyright message up and made the formatting of the file nicer.
+
 2010-03-14 :: 3.0 (Praat Script for NORM)
 -----------------
 
