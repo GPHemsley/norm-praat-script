@@ -9,7 +9,7 @@ Instructions
 Before you use this script, you must edit the settings in the next section.
 
 The script will not function at all if you do not specify a speaker.
-Avoid using spaces in the name of the speaker, as that has not been tested.
+Do not use spaces or other special characters in the name of the speaker.
 
 If you would like the output file to be put somewhere other than the current
 directory, specify that in the filepath, relative to this file.

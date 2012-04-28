@@ -1,5 +1,8 @@
 #
 # Praat script for measuring vowels for NORM
+# Version 3.2; Released 2010-03-19
+#
+# http://qc.gphemsley.org/courses/LCD/391.3/2010-01/
 #
 # Copyright (C) 2010 Gordon P. Hemsley
 # Licensed under a simplified BSD License
@@ -14,7 +17,7 @@
 # Before you use this script, you must edit the settings in the next section.
 #
 # The script will not function at all if you do not specify a speaker.
-# Avoid using spaces in the name of the speaker, as that has not been tested.
+# Do not use spaces or other special characters in the name of the speaker.
 #
 # If you would like the output file to be put somewhere other than the current
 # directory, specify that in the filepath, relative to this file.
@@ -87,15 +90,13 @@ phthong = 1
 
 # Prepare filenames
 data_file$ = filepath$ + speaker$ + ".tsv"
-glide_file$ = temporaryDirectory$ + "praat.norm.glide." + speaker$ + ".txt"
+glide_file$ = filepath$ + "praat.norm.glide." + speaker$ + ".txt"
 
 # Check to see if there is a glide open
 if ( fileReadable ( glide_file$ ) )
 	beginPause ( "Measure glide?" )
 		comment ( "You have a glide measurement pending. Would you like to measure it now?" )
 	measure_glide = endPause ( "Measure glide", "Skip glide", 1 )
-
-#	printline 'measure_glide'
 endif
 
 # If there is no glide open, or an open glide was skipped,
@@ -104,15 +105,11 @@ if ( ( measure_glide == 0 ) || ( measure_glide == 2 ) )
 	beginPause ( "Select phthong" )
 		comment ( "Please select phthong" )
 	phthong = endPause ( "Monophthong", "Diphthong", 1 )
-
-#	printline 'phthong'
 endif
 
 f1 = Get first formant
 f2 = Get second formant
 f3 = Get third formant
-
-#printline 'f1' 'f2' 'f3'
 
 # Write to the file
 if ( !fileReadable ( data_file$ ) )

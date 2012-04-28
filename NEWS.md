@@ -1,6 +1,12 @@
 NORM Praat Script NEWS
 ======================
 
+2010-03-19 :: 3.2 (Praat Script for NORM, with Instructions and Windows Bugfix)
+-----------------
+
+* Worked around bug in Praat for Windows where a trailing slash is not supplied in the `temporaryDirectory$` variable.
+* Made some minor changes to the documentation.
+
 2010-03-18 :: 3.1 (Praat Script for NORM, with Instructions)
 -----------------
 
