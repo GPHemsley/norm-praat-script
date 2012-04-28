@@ -1,6 +1,13 @@
 NORM Praat Script NEWS
 ======================
 
+2010-03-07 :: 2.0 (Praat Script with Glides)
+-----------------
+
+* Major overhaul to include the ability to automatically measure glides in a selection (for NORM), using a very simple algorithm (take the mean of only the last quarter of the selection).
+* Improved Plotnik comments.
+* Made code a little more pleasant to read.
+
 2010-03-06 :: 1.1 (New Praat Script 2)
 -----------------
 
